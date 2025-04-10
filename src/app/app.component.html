@@ -1,6 +1,16 @@
-<nav>
-  <a routerLink="/">Home33</a> |
-  <a routerLink="/about">About</a> |
-  <a [routerLink]="['/contact', 'JohnDoe']">Contact (JohnDoe)</a>
-</nav>
+
+@if (api.isSignedIn) {
+  <p>✅ You are signed in!</p>
+  <nav>
+    <a routerLink="/">Home33</a> |
+    <a routerLink="/about">About</a> |
+    <a [routerLink]="['/contact', 'JohnDoe']">Contact (JohnDoe)</a>
+  <button (click)="logout1()">Logout</button>
+
+  </nav>
+  
+} @else {
+  <p>🔒 You are not signed in.</p>
+ <button routerLink="/login">Login</button>
+}
 <router-outlet></router-outlet>
