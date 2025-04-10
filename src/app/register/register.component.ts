@@ -1,35 +1,52 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-register',
-  imports: [],
+  selector: 'app-registration',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  saveForm(): void {
-    const formData = {
-      email: (document.getElementById('email') as HTMLInputElement).value,
-      age: (document.getElementById('age') as HTMLInputElement).value,
-      phone: (document.getElementById('phone') as HTMLInputElement).value,
-      country: (document.getElementById('country') as HTMLSelectElement).value,
-    };
+  registrationForm: FormGroup;
 
-    // Simulate API call
-    this.saveToApi(formData).then(response => {
-      console.log('Form data saved successfully!', response);
-    }).catch(error => {
-      console.error('Error saving form data:', error);
+  constructor(private fb: FormBuilder) {
+    // ✅ Initialize the form group here
+    this.registrationForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      dob: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  private saveToApi(data: any): Promise<any> {
-    // Simulated API call using a Promise
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate success response
-        resolve({ status: 'success', data });
-      }, 1000);
-    });
+  // ✅ This getter allows you to use "f.email", "f.phone" in your HTML
+  get f() {
+    return this.registrationForm.controls;
+  }
+
+  onSubmit() {
+    if (this.registrationForm.valid) {
+      console.log('Form Data:', this.registrationForm.value);
+    } else {
+      console.log('Form Invalid');
+    }
   }
 }
