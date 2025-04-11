@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'contact/:name', component: ContactComponent } ,// Route with parameter
   { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: '**', redirectTo: '/login' }

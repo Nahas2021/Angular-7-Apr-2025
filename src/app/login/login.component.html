@@ -42,12 +42,7 @@
       </form>
   
       <div class="additional-options">
-        <a routerLink="/register" class="register-link">
-          Don't have an account? Create one
-        </a>
-        <a routerLink="/register" class="register-link">Register here</a>
-<!-- Not -->
-<a href="/register">Register here</a> <!-- This would reload the page -->
-      </div>
+      <button (click)="redirectToRegister()">Don't have an account? Create one</button>
+  </div>
     </div>
   </div>

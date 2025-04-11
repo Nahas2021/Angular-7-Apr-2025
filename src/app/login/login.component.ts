@@ -47,8 +47,11 @@ export class LoginComponent {
         }
       });
     }
+  }
 
- 
+  redirectToRegister(): void {
+    // Navigate to the register page
+    this.router.navigate(['/register']);
   }
   
   // Add this method to the LoginComponent class
