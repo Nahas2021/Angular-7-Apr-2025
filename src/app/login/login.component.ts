@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
+import { LoginRequest } from '../shared/login-request';
 
 @Component({
   standalone: true,
@@ -21,11 +22,33 @@ export class LoginComponent {
  constructor(private router: Router,private api: ApiService) {}
 
   onSubmit() {
+   
+
     if (this.loginForm.valid) {
-      console.log('Login successful', this.loginForm.value);
-      this.api.loginUser(this.loginForm.value);
-      this.router.navigate(['/register']);
+      
+      const loginData: LoginRequest = {
+        username: this.loginForm.get('email')?.value || '',
+        password: this.loginForm.get('password')?.value || ''
+      };
+      this.api.loginUser(loginData).subscribe({
+        next: (res) => {
+
+      if (res === 'Login successful!') {
+        // Navigate to home page (or any route you define as home)
+        this.router.navigate(['/home']);
+      }
+
+          console.log('Login successful:', res);
+          
+        },
+        error: (err) => {
+          console.error('Login failed:', err);
+         // this.message = 'Login failed: ' + err.error;
+        }
+      });
     }
+
+ 
   }
   
   // Add this method to the LoginComponent class
