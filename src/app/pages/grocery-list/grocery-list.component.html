@@ -1,0 +1,21 @@
+<div class="grocery-list">
+  <h2>Available Groceries</h2>
+
+  <!-- 🔗 Link to view basket -->
+  <div class="basket-link">
+    <button routerLink="/basket" class="view-basket-btn">🛒 View Basket button</button>
+  </div>
+
+  @for (item of groceries; track item.id) {
+    <div class="grocery-item">
+      <span>{{ item.name }} - £{{ item.price }}</span>
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="quantities[item.id]"
+      />
+      <button (click)="addToBasket(item)">Add to Basket</button>
+    </div>
+  }
+</div>
+<!-- Compare this snippet from src/app/grocery-list/grocery-list.component.ts: -->

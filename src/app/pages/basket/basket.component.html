@@ -1,0 +1,42 @@
+<div class="basket-page">
+  <h2>Your Basket</h2>
+
+  <div *ngIf="basketItems.length === 0">
+    <p>Your basket is empty.</p>
+    <a routerLink="/grocery-list" class="button">Continue Shopping</a>
+  </div>
+
+  <div *ngIf="basketItems.length > 0">
+    <table class="basket-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of basketItems">
+          <td>{{ item.name }}</td>
+          <td>
+            <button (click)="decreaseQty(item)">-</button>
+            {{ item.quantity }}
+            <button (click)="increaseQty(item)">+</button>
+          </td>
+          <td>£{{ item.price }}</td>
+          <td>£{{ item.price * item.quantity }}</td>
+          <td>
+            <button (click)="removeItem(item.id)" class="remove-btn">X</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <p><strong>Total:</strong> £{{ getTotal() }}</p>
+      <button routerLink="/checkout" class="proceed-btn">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>

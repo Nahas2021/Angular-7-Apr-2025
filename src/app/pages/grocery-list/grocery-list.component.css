@@ -1,0 +1,52 @@
+.grocery-list {
+    padding: 1rem;
+  
+    h2 {
+      margin-bottom: 1rem;
+    }
+  
+    .basket-link {
+      margin-bottom: 1.5rem;
+      text-align: right;
+  
+      .view-basket-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  
+    .grocery-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+  
+      input {
+        width: 60px;
+      }
+  
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+  

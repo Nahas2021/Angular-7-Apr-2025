@@ -1,0 +1,35 @@
+<div class="checkout-form">
+    <h2>Checkout</h2>
+  
+    <form (ngSubmit)="submitOrder()" #form="ngForm">
+      <label>
+        Full Name:
+        <input type="text" required [(ngModel)]="fullName" name="fullName" />
+      </label>
+  
+      <label>
+        Address:
+        <input type="text" required [(ngModel)]="address" name="address" />
+      </label>
+  
+      <label>
+        City:
+        <input type="text" required [(ngModel)]="city" name="city" />
+      </label>
+  
+      <label>
+        Postal Code:
+        <input type="text" required [(ngModel)]="postalCode" name="postalCode" />
+      </label>
+  
+      <label>
+        <input type="checkbox" [(ngModel)]="includeMembership" name="loyalty" />
+        Add Loyalty Membership (£5)
+      </label>
+  
+      <p><strong>Total: £{{ total.toFixed(2) }}</strong></p>
+  
+      <button type="submit" [disabled]="!form.form.valid">Place Order</button>
+    </form>
+  </div>
+  

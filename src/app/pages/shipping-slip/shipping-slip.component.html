@@ -1,0 +1,29 @@
+<div *ngIf="order">
+    <h2>Shipping Slip</h2>
+  
+    <p><strong>Customer ID:</strong> {{ order.customerId }}</p>
+    <p><strong>Order Number:</strong> {{ order.orderId }}</p>
+  
+    <h3>Shipping Information</h3>
+    <p>{{ order.shippingInfo.fullName }}</p>
+    <p>{{ order.shippingInfo.address }}</p>
+    <p>{{ order.shippingInfo.city }}, {{ order.shippingInfo.postalCode }}</p>
+  
+    <h3>Items:</h3>
+    <ul>
+      <li *ngFor="let item of physicalItems">
+        {{ item.name }} – Qty: {{ item.quantity }}
+      </li>
+    </ul>
+  
+    <div *ngIf="order.hasLoyalty">
+      <p>✅ Loyalty Membership Applied (20% discount)</p>
+    </div>
+  
+    <h3>Total Paid: £{{ order.total.toFixed(2) }}</h3>
+  </div>
+  
+  <div *ngIf="!order">
+    <p>❌ Order not found.</p>
+  </div>
+  
