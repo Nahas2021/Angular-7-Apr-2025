@@ -29,13 +29,21 @@ export class CheckoutComponent {
 
   submitOrder() {
     this.basketService.setMembership(this.includeMembership);
-    const orderId = this.basketService.placeOrder({
-      fullName: this.fullName,
-      address: this.address,
-      city: this.city,
-      postalCode: this.postalCode
-    });
-
-    this.router.navigate(['/confirmation', orderId]);
+    if (this.fullName && this.address) {
+      // Logic for order processing, save order, etc.
+      const orderId = this.basketService.placeOrder({
+        fullName: this.fullName,
+        address: this.address,
+        city: this.city,
+        postalCode: this.postalCode
+      });
+  
+      //this.router.navigate(['/confirmation', orderId]);
+      // After successful checkout, navigate to shipping slip
+      this.router.navigate(['/shipping-slip/123']); // Order ID should be dynamic
+    } else {
+      alert('Please fill in all shipping details!');
+    }
+    
   }
 }

@@ -36,7 +36,8 @@
 
     <div class="summary">
       <p><strong>Total:</strong> £{{ getTotal() }}</p>
-      <button routerLink="/checkout" class="proceed-btn">Proceed to Checkout</button>
+      <button (click)="goToCheckout()" class="proceed-btn">Proceed to Checkout</button>
+      
     </div>
   </div>
 </div>

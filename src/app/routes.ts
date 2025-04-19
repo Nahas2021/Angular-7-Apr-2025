@@ -7,7 +7,6 @@ import { RegisterComponent } from './register/register.component';
 import { GroceryListComponent } from './pages/grocery-list/grocery-list.component';
 import { BasketComponent } from './pages/basket/basket.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
-import { ShippingSlipComponent } from './pages/shipping-slip/shipping-slip.component';
 
 
 const routes: Routes = [

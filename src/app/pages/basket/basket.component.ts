@@ -4,6 +4,7 @@ import { BasketService } from '../../services/basket.service';
 import { BasketItem } from '../../models/types';
 import { FormsModule } from '@angular/forms';
 import { GroceryItem } from '../../models/types'; // Ensure this path is correct
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-basket',
@@ -14,13 +15,36 @@ import { GroceryItem } from '../../models/types'; // Ensure this path is correct
   styleUrls: ['./basket.component.css']
 })
 export class BasketComponent {
+  totalAmount: number = 0; // Declare the property with an initial value
   //basketItems: any[] = [];
   items: GroceryItem[] = [];
-  constructor(public basketService: BasketService) {}
+  hasMembership: boolean = false; // Declare the property with a default value
+  constructor(public basketService: BasketService,private router: Router) {}
 
   ngOnInit(): void {
     this.loadItems();
+    this.items = this.basketService.getItems();
+    this.hasMembership = this.basketService.hasMembership();
+    this.calculateTotal();
   }
+
+  calculateTotal(): void {
+    let total = 0;
+    this.items.forEach(item => {
+      total += item.price * (item.quantity ?? 0);
+    });
+
+    if (this.hasMembership) {
+      total = total * 0.8; // Apply 20% discount
+    }
+
+    this.totalAmount = total;
+  }
+
+  goToCheckout(): void {
+    this.router.navigate(['/checkout']);
+  }
+
 
   get basketItems(): BasketItem[] {
     return this.basketService.getBasket();
