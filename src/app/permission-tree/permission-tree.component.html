@@ -1,0 +1,24 @@
+<ul><div>dfgdfgdgf</div>
+    <ng-container *ngFor="let menu of menuTree">
+      <li>
+        <strong>{{ menu.menuName }}</strong> ({{ menu.route }})
+        <div class="actions">
+          <label *ngFor="let action of menu.actions">
+            <input
+              type="checkbox"
+              [checked]="isChecked(menu, action)"
+              (change)="toggleAction(menu, action, $event)"
+            />
+            {{ action }}
+          </label>
+        </div>
+  
+        <app-permission-tree
+          *ngIf="menu.children.length > 0"
+          [menuTree]="menu.children"
+          (permissionChange)="permissionChange.emit($event)">
+        </app-permission-tree>
+      </li>
+    </ng-container>
+  </ul>
+  

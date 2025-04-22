@@ -1,0 +1,6 @@
+{
+    "admin": ["admin", "accounts", "sales"],
+    "accounts": ["accounts", "sales"],
+    "sales": ["sales"]
+  }
+  

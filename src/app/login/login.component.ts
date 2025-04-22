@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 import { LoginRequest } from '../shared/login-request';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   standalone: true,
@@ -19,7 +20,16 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required])
   });
 
- constructor(private router: Router,private api: ApiService) {}
+ constructor(private router: Router,private api: ApiService,private auth: AuthService) {}
+
+
+ onSubmit1111() {
+  // if (this.auth.login(this.username, this.password)) {
+  //   this.router.navigate(['/dashboard']);
+  // } else {
+  //   this.error = 'Invalid credentials';
+  // }
+}
 
   onSubmit() {
    
@@ -30,22 +40,27 @@ export class LoginComponent {
         username: this.loginForm.get('email')?.value || '',
         password: this.loginForm.get('password')?.value || ''
       };
-      this.api.loginUser(loginData).subscribe({
-        next: (res) => {
+       if (this.auth.login(loginData.username, loginData.password)) {
+    this.router.navigate(['/permission-tree']);
+  }else{
+    alert('Invalid credentials');
+  }
+      // this.api.loginUser(loginData).subscribe({
+      //   next: (res) => {
 
-      if (res === 'Login successful!') {
-        // Navigate to home page (or any route you define as home)
-        this.router.navigate(['/home']);
-      }
+      // if (res === 'Login successful!') {
+      //   // Navigate to home page (or any route you define as home)
+      //   this.router.navigate(['/home']);
+      // }
 
-          console.log('Login successful:', res);
+      //     console.log('Login successful:', res);
           
-        },
-        error: (err) => {
-          console.error('Login failed:', err);
-         // this.message = 'Login failed: ' + err.error;
-        }
-      });
+      //   },
+      //   error: (err) => {
+      //     console.error('Login failed:', err);
+      //    // this.message = 'Login failed: ' + err.error;
+      //   }
+      // });
     }
   }
 

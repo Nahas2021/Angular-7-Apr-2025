@@ -1,0 +1,16 @@
+<div class="permissions-container">
+    <div>page</div>
+    <h2>Manage Permissions for Group {{ groupId }}</h2>
+  
+    <app-permission-tree
+      [menuTree]="menuTree"
+      (permissionChange)="onPermissionChange($event)">
+    </app-permission-tree>
+    <div class="actions">
+      <button (click)="selectAll()" class="select-all-btn">Select All</button>
+      <button (click)="deselectAll()" class="deselect-all-btn">Deselect All</button>    
+    </div>
+  
+    <button (click)="save()" class="save-btn">Save All</button>
+  </div>
+  

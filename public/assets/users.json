@@ -1,0 +1,7 @@
+[
+    { "username": "admin@gmail.com", "group": "admin" },
+    { "username": "john@gmail.com", "group": "accounts" },
+    { "username": "mary", "group": "sales" },
+    { "username": "jane", "group": "accounts" }
+  ]
+  

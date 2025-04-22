@@ -1,5 +1,5 @@
 
-@if (api.isSignedIn) {
+@if (auth.isLoggedIn()) {
   <p>✅ You are signed in!</p>
   <nav>
     <a routerLink="/home">Home</a> |
@@ -8,6 +8,11 @@
     <a routerLink="/grocery-list">Groceries</a> |
   <a routerLink="/checkout">Checkout</a> |
   <a routerLink="/confirmation">Confirmation</a>||
+  <a routerLink="/dashboard">Dashboard</a>||
+  <a routerLink="/admin">Admin</a>||
+  <a routerLink="/permission-tree">Permission-tree</a>||
+  <a routerLink="/permission-page">Permission-Page</a>||
+    <a routerLink="/unauthorized">Unauthorized</a>||
   <button (click)="logout1()">Logout</button>
 
   </nav>
