@@ -1,0 +1,37 @@
+<p>tree-view works1!</p>
+<div class="toolbar">
+  <button mat-button (click)="selectAll()">Select All</button>
+  <button mat-button (click)="deselectAll()">Deselect All</button>
+</div>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <li class="tree-node" [style.paddingLeft.px]="node.level * 20">
+      <mat-checkbox
+        [checked]="node.checked"
+        [indeterminate]="node.indeterminate"
+        (change)="toggleCheckbox(node)">
+        {{ node.name }}
+      </mat-checkbox>
+    </li>
+  </mat-tree-node>
+
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodeToggle>
+    <li class="tree-node" [style.paddingLeft.px]="node.level * 20">
+      <button mat-icon-button matTreeNodeToggle>
+        <mat-icon>
+          {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+      <mat-checkbox
+        [checked]="node.checked"
+        [indeterminate]="node.indeterminate"
+        (change)="toggleCheckbox(node)">
+        {{ node.name }}
+      </mat-checkbox>
+    </li>
+  </mat-tree-node>
+</mat-tree>
+
+  
+  

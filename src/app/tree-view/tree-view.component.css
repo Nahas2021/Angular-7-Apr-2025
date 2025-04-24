@@ -1,0 +1,24 @@
+.tree-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.tree {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.toolbar {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+.toolbar button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
