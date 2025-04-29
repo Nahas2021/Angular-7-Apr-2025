@@ -15,7 +15,7 @@
 
 /* Push the last child to the right */
 .tree-node.last-child {
-  margin-right: auto;
+  margin-left: auto;
 }
 
 

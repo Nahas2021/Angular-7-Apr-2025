@@ -1,11 +1,11 @@
 <p>tree-view works1!</p>
 <div>
-<mat-form-field>
-  <mat-label>Select Group</mat-label>
-  <mat-select [(ngModel)]="selectedGroup" (selectionChange)="onGroupChange()">
-    <mat-option *ngFor="let group of groups" [value]="group">{{ group }}</mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Select Group</mat-label>
+    <mat-select [(ngModel)]="selectedGroup" (selectionChange)="onGroupChange()">
+      <mat-option *ngFor="let group of groups" [value]="group">{{ group }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 <div class="toolbar">
   <button mat-button (click)="selectAll()">Select All</button>
@@ -13,20 +13,6 @@
 </div>
 
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
-  <!-- Leaf Node -->
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-    <ul class="tree-list">
-      <li class="tree-node" [class.last-child]="isLastChild(node)" [style.paddingLeft.px]="node.level * 20">
-        <mat-checkbox
-          [checked]="node.checked"
-          [indeterminate]="node.indeterminate"
-          (change)="toggleCheckbox(node)">
-          {{ node.name }}
-        </mat-checkbox>
-      </li>
-    </ul>
-  </mat-tree-node>
-
   <!-- Parent Node -->
   <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodeToggle>
     <ul class="tree-list">
@@ -45,8 +31,18 @@
       </li>
     </ul>
   </mat-tree-node>
+
+  <!-- Leaf Node -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <ul class="tree-list">
+      <li class="tree-node" [class.last-child]="isLastChild(node)" [style.paddingLeft.px]="node.level * 20">
+        <mat-checkbox
+          [checked]="node.checked"
+          [indeterminate]="node.indeterminate"
+          (change)="toggleCheckbox(node)">
+          {{ node.name }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </mat-tree-node>
 </mat-tree>
-
-
-  
-  

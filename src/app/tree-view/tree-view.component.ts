@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 
 
 interface TreeNode {
+  id?: string;
   name: string;
   checked?: boolean;
   indeterminate?: boolean;
@@ -18,7 +19,8 @@ interface TreeNode {
 }
 
 interface FlatNode {
-  name: string;
+   id: string;
+   name: string;
   level: number;
   expandable: boolean;
   checked?: boolean;
@@ -28,7 +30,12 @@ interface FlatNode {
 
 
  const TREE_DATA: TreeNode[] = [
-    
+  
+    // { id: 'node1', name: 'Level 1: Root A',  },
+    // { id: 'node2', name: 'Level 2: Child A1' },
+    // { id: 'node3', name: 'Level 3: Child A1.1'},
+    // ...
+  
   {
     name: 'Step 1: Getting Started',
     children: [
@@ -41,14 +48,14 @@ interface FlatNode {
               {
                 name: 'Level 4: Confirm A1',
                 children: [
-                  { name: 'Level 5: Execute A1.1' },
-                  { name: 'Level 5: Execute A1.2' }
+                  {id:'1',name: 'Level 5: Execute A1.1' },
+                  {id:'2', name: 'Level 5: Execute A1.2' }
                 ]
               },
               {
                 name: 'Level 4: Confirm A2',
                 children: [
-                  { name: 'Level 5: Execute A2.1' },
+                  { id:'3',name: 'Level 5: Execute A2.1' },
                   { name: 'Level 5: Execute A2.2' }
                 ]
               }
@@ -91,7 +98,7 @@ interface FlatNode {
               {
                 name: 'Level 4: Reset to Default',
                 children: [
-                  { name: 'Level 5: Confirm Reset' },
+                  {id:'4', name: 'Level 5: Confirm Reset' },
                   { name: 'Level 5: Create Restore Point' }
                 ]
               }
@@ -338,18 +345,40 @@ export class TreeComponent {
   private nodeMap = new Map<FlatNode, TreeNode>();
   groups = ['Admins', 'Users', 'Guests'];
   selectedGroup = 'Admins';
-  private transformer = (node: TreeNode, level: number, parent?: FlatNode): FlatNode => {
-    const flatNode: FlatNode = {
-      name: node.name,
-      level,
-      expandable: !!node.children?.length,
-      checked: node.checked,
-      indeterminate: node.indeterminate,
-      parent: parent // Track parent
-    };
-    this.nodeMap.set(flatNode, node);
-    return flatNode;
-  };
+  // private transformer = (node: TreeNode, level: number, parent?: FlatNode): FlatNode => {
+  //   const flatNode: FlatNode = {
+  //     name: node.name,
+  //     level,
+  //     expandable: !!node.children?.length,
+  //     checked: node.checked,
+  //     indeterminate: node.indeterminate,
+  //     parent: parent // Track parent
+  //   };
+  //   this.nodeMap.set(flatNode, node);
+  //   return flatNode;
+  // };
+  flatNodeMap = new Map<FlatNode, TreeNode>();
+nestedNodeMap = new Map<TreeNode, FlatNode>();
+
+transformer = (node: TreeNode, level: number): FlatNode => {
+  const existingNode = this.nestedNodeMap.get(node);
+  const flatNode: FlatNode = existingNode && existingNode.name === node.name
+    ? existingNode
+    : {
+        id: node.id || '', // Ensure id is assigned
+        name: node.name,
+        level,
+        expandable: !!node.children?.length,
+        checked: false,
+        indeterminate: false
+      };
+
+  this.flatNodeMap.set(flatNode, node);
+  this.nestedNodeMap.set(node, flatNode);
+
+  return flatNode;
+};
+
   // Selection map: group name -> selected node names
   groupSelections: { [key: string]: Set<string> } = {};
 
@@ -364,11 +393,17 @@ export class TreeComponent {
     node => node.expandable,
     node => node.children
   );
-  isLastChild(node: FlatNode): boolean {
+  isLastChild11(node: FlatNode): boolean {
     const parent = this.getParentNode(node);
     if (!parent) return false;
     const descendants = this.treeControl.getDescendants(parent);
     return descendants[descendants.length - 1] === node;
+  }
+  isLastChild(flatNode: FlatNode): boolean {
+    const nestedNode = this.flatNodeMap.get(flatNode);
+    const parent = nestedNode ? this.findParent(this.dataSource.data, nestedNode) : null;
+    if (!parent || !parent.children) return false;
+    return parent.children[parent.children.length - 1] === nestedNode;
   }
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   onGroupChange() {
@@ -382,26 +417,23 @@ export class TreeComponent {
         node.indeterminate = false;
         selected.add(node.name);
       });
-    } else if (this.selectedGroup === 'Guests11') {
+    } else if (this.selectedGroup === 'Guests') {
+      const targetNames = ['1', '2', '3', '4', '5'];
       this.treeControl.dataNodes.forEach(node => {
-        const shouldCheck = node.name === 'Level 5: Execute A1.1';
+        const shouldCheck = targetNames.includes(node.id);
         node.checked = shouldCheck;
         node.indeterminate = false;
         if (shouldCheck) selected.add(node.name);
       });
     } 
-    else if (this.selectedGroup === 'Guests') {
+    else if (this.selectedGroup === 'Guests1111') {
       const targetNames = ['Level 5: Execute A1.1', 'Level 5: Execute A1.2', 'Level 4: View A1'];
-      const selected = new Set<string>();
     
       this.treeControl.dataNodes.forEach(node => {
-        const shouldCheck = targetNames.includes(node.name);
-        node.checked = shouldCheck;
-        node.indeterminate = false;
-        if (shouldCheck) {
-          selected.add(node.name);
+        if (targetNames.includes(node.name) && !node.checked) {
+          this.toggleCheckbox(node);
         }
-      });    
+      });
     }
     else if (this.selectedGroup === 'Users') {
       this.treeControl.dataNodes.forEach(node => {
@@ -429,17 +461,52 @@ export class TreeComponent {
   constructor() {
     this.dataSource.data = TREE_DATA;
   }
-
+  findParent(nodes: TreeNode[], child: TreeNode): TreeNode | null {
+    for (const node of nodes) {
+      if (node.children?.includes(child)) {
+        return node;
+      }
+      const parent = this.findParent(node.children || [], child);
+      if (parent) return parent;
+    }
+    return null;
+  }
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
-  toggleCheckbox(node: FlatNode): void {
+  toggleCheckbox1(node: FlatNode): void {
     node.checked = !node.checked;
     node.indeterminate = false;
   
     this.checkDescendants(node, node.checked);
     this.updateParents(node);
   }
-
+  toggleCheckbox(node: FlatNode): void {
+    node.checked = !node.checked;
+    node.indeterminate = false;
+  
+    // Update descendants
+    const descendants = this.getDescendants(node);
+    descendants.forEach(child => {
+      child.checked = node.checked;
+      child.indeterminate = false;
+    });
+  
+    // Update all parent nodes
+    this.updateAllParents(node);
+  }
+  updateAllParents(node: FlatNode): void {
+    let parent = this.getParentNode(node);
+    while (parent) {
+      const descendants = this.getDescendants(parent);
+      const allChecked = descendants.every(child => child.checked);
+      const someChecked = descendants.some(child => child.checked || child.indeterminate);
+  
+      parent.checked = allChecked;
+      parent.indeterminate = !allChecked && someChecked;
+  
+      parent = this.getParentNode(parent);
+    }
+  }
   checkDescendants(node: FlatNode, isChecked: boolean): void {
     const descendants = this.treeControl.getDescendants(node);
     descendants.forEach(child => {
@@ -447,7 +514,18 @@ export class TreeComponent {
       child.indeterminate = false;
     });
   }
-  
+  getDescendants(node: FlatNode): FlatNode[] {
+    const startIndex = this.treeControl.dataNodes.indexOf(node);
+    const results: FlatNode[] = [];
+    for (let i = startIndex + 1; i < this.treeControl.dataNodes.length; i++) {
+      const current = this.treeControl.dataNodes[i];
+      if (current.level <= node.level) {
+        break;
+      }
+      results.push(current);
+    }
+    return results;
+  }
   updateParents(node: FlatNode): void {
     let parent = this.getParentNode(node);
     while (parent) {
@@ -461,8 +539,17 @@ export class TreeComponent {
       parent = this.getParentNode(parent);
     }
   }
-  
   getParentNode(node: FlatNode): FlatNode | null {
+  const nodeIndex = this.treeControl.dataNodes.indexOf(node);
+  for (let i = nodeIndex - 1; i >= 0; i--) {
+    const current = this.treeControl.dataNodes[i];
+    if (current.level < node.level) {
+      return current;
+    }
+  }
+  return null;
+}
+  getParentNode1(node: FlatNode): FlatNode | null {
     const nodeIndex = this.treeControl.dataNodes.indexOf(node);
     if (nodeIndex < 0) return null;
   
