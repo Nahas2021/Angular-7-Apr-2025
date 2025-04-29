@@ -19,21 +19,53 @@ export class FlatNode {
   name!: string;
   level!: number;
   expandable!: boolean;
+  checked?: boolean; // Add checked property
+  indeterminate?: boolean; // Add indeterminate property
 }
 const TREE_DATA: TreeNode[] = [
   {
-    name: 'Step 1: Getting Started',
+    name: 'Admins',
     children: [
-      {
-        name: 'Level 2: Choose Option',
-        children: [
-          { name: 'Level 3: Option A' },
-          { name: 'Level 3: Option B' }
-        ]
-      }
+      { name: 'Admin Sub 1' },
+      { name: 'Admin Sub 2' },
+      { name: 'Admin Sub 3' }
+    ]
+  },
+  {
+    name: 'Guests',
+    children: [
+      { name: 'Guest Sub 1' },
+      { name: 'Guest Sub 2' },
+      { name: 'Guest Sub 3' }
+    ]
+  },
+  {
+    name: 'Users',
+    children: [
+      { name: 'User Sub 1' },
+      { name: 'User Sub 2' },
+      { name: 'User Sub 3' }
     ]
   }
 ];
+
+// const TREE_DATA: TreeNode[] = [
+//   //{
+//     // name: 'Step 1: Getting Started',
+//     // children: [
+//     //   {
+//     //     name: 'Level 2: Choose Option',
+//     //     children: [
+//     //       { name: 'Level 3: Option A' },
+//     //       { name: 'Level 3: Option B' }
+//     //     ]
+//     //   }
+//     // ]
+//  // }
+//  { name: 'guest' },
+//  { name: 'admin' },
+//  { name: 'users' }
+// ];
 @Component({
   selector: 'app-group-tree',
   templateUrl: './group-tree.component.html',
@@ -44,7 +76,7 @@ const TREE_DATA: TreeNode[] = [
       MatIconModule,
       MatButtonModule,MatFormFieldModule,MatSelectModule,FormsModule
     ],
-  styleUrls: ['./group-tree.component.scss']
+  styleUrls: ['./group-tree.component.css']
 })
 export class GroupTreeComponent implements OnInit {
   ngOnInit(): void {
@@ -93,8 +125,67 @@ export class GroupTreeComponent implements OnInit {
     const selected = this.groupSelections[this.selectedGroup];
     event.checked ? selected.add(node.name) : selected.delete(node.name);
   }
-
+  selectAll() {
+    const selected = new Set<string>();
+  
+    // Traverse all nodes and subnodes
+    this.dataSource.data.forEach((parent: TreeNode) => {
+      selected.add(parent.name);
+      parent.children?.forEach((child: TreeNode) => selected.add(child.name));
+    });
+  
+    this.groupSelections[this.selectedGroup] = selected;
+    this.treeControl.expandAll();
+  }
+  
+  clearAll() {
+    this.groupSelections[this.selectedGroup] = new Set<string>();
+    this.treeControl.collapseAll();
+  }
   onGroupChange() {
+    const selected = new Set<string>();
+  
+    if (this.selectedGroup === 'Admins') {
+     this.dataSource.data.forEach(parent => {
+        selected.add(parent.name);
+        parent.children?.forEach(child => selected.add(child.name));
+      });
+    } else if (this.selectedGroup === 'Guests') {
+      selected.add('Guests');
+      selected.add('Guest Sub 1');
+      selected.add('Guest Sub 2');
+      selected.add('Guest Sub 3');
+    } else if (this.selectedGroup === 'Users') {
+      selected.add('Users');
+      selected.add('User Sub 1');
+      selected.add('User Sub 2');
+      selected.add('User Sub 3');
+    }
+  
+    this.groupSelections[this.selectedGroup] = selected;
+    this.treeControl.expandAll(); // Expand all nodes so user sees selection
+  }
+  onGroupChange112() {
+    const selected = this.groupSelections[this.selectedGroup] ?? new Set<string>();
+  
+    selected.clear(); // Clear previous selections
+  
+    if (this.selectedGroup === 'Admins') {
+      // Select all nodes
+     // this.dataSource.data.forEach(node => selected.add(node.name));
+     
+   this.selectAll();
+   console.log('Selected group:', this.selectedGroup);
+    } else if (this.selectedGroup === 'Guests') {
+      selected.add('guest');
+    } else if (this.selectedGroup === 'Users') {
+      selected.add('users');
+    }
+  
+    this.groupSelections[this.selectedGroup] = selected;
+    this.treeControl.expandAll(); // Optional: expand the tree
+  }
+  onGroupChange1() {
     this.treeControl.expandAll(); // optional
   }
 }

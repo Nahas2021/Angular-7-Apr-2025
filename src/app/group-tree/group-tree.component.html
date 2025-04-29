@@ -1,4 +1,8 @@
 <p>group-tree works!</p>
+<div style="margin: 12px 0;">
+  <button mat-raised-button color="primary" (click)="selectAll()">Select All</button>
+  <button mat-raised-button color="warn" (click)="clearAll()">Clear All</button>
+</div>
 <mat-form-field>
     <mat-label>Select Group</mat-label>
     <mat-select [(ngModel)]="selectedGroup" (selectionChange)="onGroupChange()">

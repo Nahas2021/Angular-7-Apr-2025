@@ -1,0 +1,11 @@
+::ng-deep .mat-tree-node {
+    padding-left: 20px; /* base padding */
+  }
+  
+  ::ng-deep .mat-tree-node-level-1 {
+    padding-left: 40px; /* level 1 nodes more indented */
+  }
+  
+  ::ng-deep .mat-tree-node-level-2 {
+    padding-left: 60px; /* level 2 nodes even more */
+  }
