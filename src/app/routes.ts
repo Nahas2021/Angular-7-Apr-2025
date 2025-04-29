@@ -15,6 +15,7 @@ import { RoleGuard } from './guards/role.guard';
 import { PermissionTreeComponent } from './permission-tree/permission-tree.component';
 import { PermissionsPageComponent } from './permissions-page/permissions-page.component';
 import { TreeComponent } from './tree-view/tree-view.component';
+import { GroupTreeComponent } from './group-tree/group-tree.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, // Default redirect
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'unauthorized', component: UnauthorizedComponent },
   {path: 'permission-page', component: PermissionsPageComponent, canActivate: [AuthGuard]},
   {path: 'permission-tree', component: PermissionTreeComponent},
+  { path: 'group-tree', component: GroupTreeComponent },
   {path: 'tree-view', component: TreeComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },

@@ -1,0 +1,31 @@
+<p>group-tree works!</p>
+<mat-form-field>
+    <mat-label>Select Group</mat-label>
+    <mat-select [(ngModel)]="selectedGroup" (selectionChange)="onGroupChange()">
+      <mat-option *ngFor="let group of groups" [value]="group">{{ group }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+      <mat-checkbox
+        [checked]="isChecked(node)"
+        (change)="onToggle(node, $event)"
+      >
+        {{ node.name }}
+      </mat-checkbox>
+    </mat-tree-node>
+  
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+      <div class="mat-tree-node">
+        <mat-icon matTreeNodeToggle>expand_more</mat-icon>
+        <mat-checkbox
+          [checked]="isChecked(node)"
+          (change)="onToggle(node, $event)"
+        >
+          {{ node.name }}
+        </mat-checkbox>
+      </div>
+    </mat-tree-node>
+  </mat-tree>
+  
