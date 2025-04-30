@@ -42,6 +42,7 @@ export class LoginComponent {
       };
        if (this.auth.login(loginData.username, loginData.password)) {
     this.router.navigate(['/permission-tree']);
+    
   }else{
     alert('Invalid credentials');
   }

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 
 interface TreeNode {
   id?: string;
+  menuID?: string;
   name: string;
   checked?: boolean;
   indeterminate?: boolean;
@@ -20,12 +21,14 @@ interface TreeNode {
 
 interface FlatNode {
    id: string;
+  menuID?: string; // Added menuID property
    name: string;
   level: number;
   expandable: boolean;
   checked?: boolean;
   indeterminate?: boolean;
   parent?: FlatNode;
+  
 }
 
 
@@ -34,80 +37,87 @@ interface FlatNode {
     // { id: 'node1', name: 'Level 1: Root A',  },
     // { id: 'node2', name: 'Level 2: Child A1' },
     // { id: 'node3', name: 'Level 3: Child A1.1'},
-    // ...
-  
-  {
+    
+    
+    {
     name: 'Step 1: Getting Started',
     children: [
       {
-        name: 'Level 2: Choose Option',
+      name: 'Level 2: Choose Option',
+      children: [
+        {
+        name: 'Level 3: Option A',
         children: [
           {
-            name: 'Level 3: Option A',
-            children: [
-              {
-                name: 'Level 4: Confirm A1',
-                children: [
-                  {id:'1',name: 'Level 5: Execute A1.1' },
-                  {id:'2', name: 'Level 5: Execute A1.2' }
-                ]
-              },
-              {
-                name: 'Level 4: Confirm A2',
-                children: [
-                  { id:'3',name: 'Level 5: Execute A2.1' },
-                  { name: 'Level 5: Execute A2.2' }
-                ]
-              }
-            ]
+          name: 'Level 4: Confirm A1',
+          children: [
+            {id:'1',name: 'Level 5: Execute A1.1' },
+            {id:'2', name: 'Level 5: Execute A1.2', menuID: '3' }
+          ]
           },
           {
-            name: 'Level 3: Option B',
-            children: [
-              {
-                name: 'Level 4: Confirm B1',
-                children: [
-                  { name: 'Level 5: Execute B1.1' },
-                  { name: 'Level 5: Execute B1.2' }
-                ]
-              },
-              {
-                name: 'Level 4: Confirm B2',
-                children: [
-                  { name: 'Level 5: Execute B2.1' },
-                  { name: 'Level 5: Execute B2.2' }
-                ]
-              }
-            ]
+          name: 'Level 4: Confirm A2',
+          children: [
+            { id:'3',name: 'Level 5: Execute A2.1' ,menuID: '4' },
+            { name: 'Level 5: Execute A2.2' }
+          ]
           }
         ]
-      },
-      {
-        name: 'Level 2: Explore Settings',
+        },
+        {
+        name: 'Level 3: Option B',
         children: [
           {
-            name: 'Level 3: Advanced Config',
-            children: [
-              {
-                name: 'Level 4: Save Changes',
-                children: [
-                  { name: 'Level 5: Confirm Save & Exit' },
-                  { name: 'Level 5: Schedule Backup' }
-                ]
-              },
-              {
-                name: 'Level 4: Reset to Default',
-                children: [
-                  {id:'4', name: 'Level 5: Confirm Reset' },
-                  { name: 'Level 5: Create Restore Point' }
-                ]
-              }
-            ]
+          name: 'Level 4: Confirm B1',
+          children: [
+            { name: 'Level 5: Execute B1.1' },
+            { name: 'Level 5: Execute B1.2' }
+          ]
+          },
+          {
+          name: 'Level 4: Confirm B2',
+          children: [
+            { name: 'Level 5: Execute B2.1' },
+            { name: 'Level 5: Execute B2.2' }
+          ]
           }
         ]
+        }
+      ]
+      },
+      {
+      name: 'Level 2: Explore Settings',
+      children: [
+        {
+        name: 'Level 3: Advanced Config',
+        children: [
+          {
+          name: 'Level 4: Save Changes',
+          children: [
+            { name: 'Level 5: Confirm Save & Exit' },
+            { name: 'Level 5: Schedule Backup' }
+          ]
+          },
+          {
+          name: 'Level 4: Reset to Default',
+          children: [
+            {id:'4', name: 'Level 5: Confirm Reset' ,menuID: '5' },
+            { name: 'Level 5: Create Restore Point' }
+          ]
+          }
+        ]
+        }
+      ]
+      },
+      {
+      name: 'Level 2: Additional Step',
+      children: [
+        { name: 'Level 3: Sub-step 1' },
+        { name: 'Level 3: Sub-step 2' }
+      ]
       }
     ]
-  }
+    }
   // {
     //   name: 'Excel',
     //   children: [
@@ -366,6 +376,7 @@ transformer = (node: TreeNode, level: number): FlatNode => {
     ? existingNode
     : {
         id: node.id || '', // Ensure id is assigned
+        menuID: node.menuID || '', // Include menuID
         name: node.name,
         level,
         expandable: !!node.children?.length,
@@ -393,17 +404,71 @@ transformer = (node: TreeNode, level: number): FlatNode => {
     node => node.expandable,
     node => node.children
   );
-  isLastChild11(node: FlatNode): boolean {
+  isLastChild(node: FlatNode): boolean {
     const parent = this.getParentNode(node);
     if (!parent) return false;
     const descendants = this.treeControl.getDescendants(parent);
     return descendants[descendants.length - 1] === node;
   }
-  isLastChild(flatNode: FlatNode): boolean {
-    const nestedNode = this.flatNodeMap.get(flatNode);
-    const parent = nestedNode ? this.findParent(this.dataSource.data, nestedNode) : null;
-    if (!parent || !parent.children) return false;
-    return parent.children[parent.children.length - 1] === nestedNode;
+  saveTreeState111(): void {
+    function extractCheckedNodes(nodes: TreeNode[]): any[] {
+      return nodes
+        .filter(node => node.checked)
+        .map(node => ({
+          id: node.id,
+          name: node.name
+        }));
+    }
+  
+    const checkedNodes = extractCheckedNodes(this.dataSource.data); // replace with your actual tree data source
+    console.log('Checked Nodes Saved:', checkedNodes);
+  
+    localStorage.setItem('checkedTreeNodes', JSON.stringify(checkedNodes));
+  }
+  
+  saveTreeState(): void {
+    const checkedNodes = this.treeControl.dataNodes
+      .filter(node => node.checked)
+      .map(node => ({
+      id: node.id || '',
+      name: node.name,
+      menuID: node.menuID || '' // Ensure menuID is included even if it's null
+      }));
+
+    console.log('Checked Nodes:', checkedNodes);
+  
+    // Optionally save
+    localStorage.setItem('checkedTreeNodes', JSON.stringify(checkedNodes));
+  }
+  
+  saveTreeState33(): void {
+    const treeStateToSave = this.treeControl.dataNodes.map(node => ({
+      id: node.id,
+      name: node.name,
+      checked: !!node.checked
+    }));
+  
+    console.log('Saved Tree State:', treeStateToSave);
+  
+    // Example: Save to local storage (you can replace this with API call)
+    localStorage.setItem('treeState', JSON.stringify(treeStateToSave));
+  }
+  
+  
+  saveTreeState22211(): void {
+    const serializeTree = (nodes: TreeNode[]): any[] => {
+      return nodes.map(node => ({
+        id: node.id,
+        name: node.name,
+        checked: !!node.checked,
+        indeterminate: !!node.indeterminate,
+        children: node.children ? serializeTree(node.children) : []
+      }));
+    };
+
+    const serializedData = serializeTree(this.dataSource.data);
+    localStorage.setItem('treeViewData', JSON.stringify(serializedData));
+    console.log('Tree view data saved:', serializedData);
   }
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   onGroupChange() {

@@ -8,3 +8,10 @@
         <li>Helpful Topics</li>
     </ul>
 </div>
+<div class="button-group">
+    <button *appHasPermission="'view'" mat-raised-button color="primary">View</button>
+    <button *appHasPermission="'save'" mat-raised-button color="accent">Save</button>
+    <button *appHasPermission="'edit'" mat-raised-button color="warn">Edit</button>
+    <button *appHasPermission="'delete'" mat-raised-button color="warn">Delete</button>
+    <button *appHasPermission="'print'" mat-raised-button color="primary">Print</button>
+  </div>
