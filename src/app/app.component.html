@@ -3,10 +3,22 @@
   <p>✅ You are signed in!</p>
   <nav>
     <a routerLink="/home">Home</a> |
-    <a routerLink="/about">About</a> |
+    @if (permission.hasPagePermission('page-2')) {
+      
+      <a routerLink="/about">About</a> |
+    }
+    @if (permission.hasPagePermission('page-1')) {
+      
     <a [routerLink]="['/contact', 'JohnDoe']">Contact (JohnDoe)</a>|
-    <a routerLink="/grocery-list">Groceries</a> |
+    }
+    @if (permission.hasPagePermission('page-3')) {
+      
+      <a routerLink="/grocery-list">Groceries</a> |
+    }
+    @if (permission.hasPagePermission('page-4')) {
+     
   <a routerLink="/checkout">Checkout</a> |
+    }
   <a routerLink="/confirmation">Confirmation</a>||
   <a routerLink="/dashboard">Dashboard</a>||
   <a routerLink="/admin">Admin</a>||

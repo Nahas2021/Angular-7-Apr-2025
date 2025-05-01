@@ -31,7 +31,10 @@ export class PermissionService {
       'page-3': ['view', 'delete']
     }));
   }
-
+  hasPagePermission(pageId: string): boolean {
+    const permissions = JSON.parse(localStorage.getItem('permissions') || '{}');
+    return pageId in permissions;
+  }
   loadPermissionsForPage(pageId: string): void {
     const stored = localStorage.getItem('permissions');
     const allPermissions = stored ? JSON.parse(stored) : {};
