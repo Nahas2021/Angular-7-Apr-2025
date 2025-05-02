@@ -8,6 +8,10 @@ export interface GroceryItem {
     quantity?: number; // Optional quantity property
   }
 
+  export interface UserGroup {
+    groupId: number;
+    groupName: string;
+  }
   
   export interface BasketItem extends GroceryItem {
     quantity: number;

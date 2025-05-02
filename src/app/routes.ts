@@ -16,7 +16,7 @@ import { PermissionTreeComponent } from './permission-tree/permission-tree.compo
 import { PermissionsPageComponent } from './permissions-page/permissions-page.component';
 import { TreeComponent } from './tree-view/tree-view.component';
 import { GroupTreeComponent } from './group-tree/group-tree.component';
-
+import { SaveTreeViewComponent } from './save-tree-view/save-tree-view.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, // Default redirect
   { path: 'home', component: HomeComponent },
@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'group-tree', component: GroupTreeComponent },
   {path: 'tree-view', component: TreeComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {path: 'save-tree-view', component: SaveTreeViewComponent},
   { path: '**', redirectTo: '/login' },
   {
     path: 'shipping-slip/:id',
