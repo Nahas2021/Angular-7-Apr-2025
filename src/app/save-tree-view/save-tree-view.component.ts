@@ -356,7 +356,8 @@ export class SaveTreeViewComponent implements OnInit {
   selectedGroupId?: number;
   private nodeMap = new Map<FlatNode, TreeNode>();
   //groups = ['Admins', 'Users', 'Guests'];
-  selectedGroup = 'Admins';
+  selectedGroup: { groupId: number, groupName: string } | null = null;
+  selected_Group: UserGroup = { groupId: 1, groupName: 'Admins' };
   // private transformer = (node: TreeNode, level: number, parent?: FlatNode): FlatNode => {
   //   const flatNode: FlatNode = {
   //     name: node.name,
@@ -480,50 +481,45 @@ transformer = (node: TreeNode, level: number): FlatNode => {
   }
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   onGroupChange() {
-    const selected = this.groupSelections[this.selectedGroup] ?? new Set<string>();
-    selected.clear(); // Clear previous selections
+    if (this.selectedGroup) {
+      console.log('Selected Group ID:', this.selectedGroup.groupId);
+      console.log('Selected Group Name:', this.selectedGroup.groupName);
+      // Now you can use this.selectedGroup.groupId wherever needed
+      this.api.getGroupPermissions(this.selectedGroup.groupId).subscribe(data => {
+        // this.dataSource.data = data;
+         console.log('Tree Data for Group:', data);
+        
+        // Check nodes based on menuID and actionName
+        const checkNodes = (nodes: TreeNode[], menuID: string, actionName: string): void => {
+          nodes.forEach(node => {
+            if (node.menuID === menuID && node.name === actionName) {
+              node.checked = true;
+            }
+            if (node.children) {
+              checkNodes(node.children, menuID, actionName);
+            }
+          });
+        };
+
+        // Example usage: Replace 'menuID' and 'actionName' with actual values
+        const menuIDToCheck = '3'; // Replace with the desired menuID
+        const actionNameToCheck = 'Level 5: Execute A1.2'; // Replace with the desired action name
+        checkNodes(this.dataSource.data, menuIDToCheck, actionNameToCheck);
+
+        // Update the tree control to reflect changes
+        this.treeControl.dataNodes.forEach(node => {
+          const treeNode = this.flatNodeMap.get(node);
+          if (treeNode) {
+            node.checked = treeNode.checked || false;
+            node.indeterminate = treeNode.indeterminate || false;
+          }
+        });
+
+       });
+    }
   
-    if (this.selectedGroup === 'Admins') {
-      // Select all nodes by name
-      this.treeControl.dataNodes.forEach(node => {
-        node.checked = true;
-        node.indeterminate = false;
-        selected.add(node.name);
-      });
-    } else if (this.selectedGroup === 'Guests') {
-      const targetNames = ['1', '2', '3', '4', '5'];
-      this.treeControl.dataNodes.forEach(node => {
-        const shouldCheck = targetNames.includes(node.id);
-        node.checked = shouldCheck;
-        node.indeterminate = false;
-        if (shouldCheck) selected.add(node.name);
-      });
-    } 
-    else if (this.selectedGroup === 'Guests1111') {
-      const targetNames = ['Level 5: Execute A1.1', 'Level 5: Execute A1.2', 'Level 4: View A1'];
+  
     
-      this.treeControl.dataNodes.forEach(node => {
-        if (targetNames.includes(node.name) && !node.checked) {
-          this.toggleCheckbox(node);
-        }
-      });
-    }
-    else if (this.selectedGroup === 'Users') {
-      this.treeControl.dataNodes.forEach(node => {
-        const shouldCheck = node.name === 'Level 5: Execute B1.2';
-        node.checked = shouldCheck;
-        node.indeterminate = false;
-        if (shouldCheck) selected.add(node.name);
-      });
-    }
-  
-    this.groupSelections[this.selectedGroup] = selected;
-  
-    this.treeControl.dataNodes.forEach(node => {
-      node.checked = selected.has(node.name);
-      node.indeterminate = false;
-    });
-  
     // Update parent indeterminate states
     this.treeControl.dataNodes.forEach(node => {
       this.updateParents(node);
