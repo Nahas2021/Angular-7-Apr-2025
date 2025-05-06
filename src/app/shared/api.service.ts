@@ -4,9 +4,17 @@ import { Observable } from 'rxjs';
 import { LoginRequest, RegisterData } from './login-request';
 import { UserGroup } from '../models/types';
 
+export interface MenuItem {
+  menuId: number;
+  actionName: string;
+  groupId: string;
+  actionId: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
   private baseUrl = 'https://localhost:44358/api';
 
@@ -27,6 +35,10 @@ export class ApiService {
    
     return this.http.post(`${this.baseUrl}/register`, userData);
   }
+    /** Fetch the drill‑down menu tree with selectedActions pre‑populated */
+    getGroupPermissions(groupId: number): Observable<MenuItem[]> {
+      return this.http.get<MenuItem[]>(this.baseUrl +`/permissions/tree?groupId=${groupId}`);
+    }
   // GET request to fetch users (example)
   getAllUsers(): Observable<any> {
     return this.http.get(`${this.baseUrl}/users`);

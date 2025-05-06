@@ -30,6 +30,12 @@ export class PermissionService {
       'page-2': ['view', 'print'],
       'page-3': ['view', 'delete']
     }));
+
+    localStorage.setItem('user', JSON.stringify({
+      username: 'admin',
+      group: 'admin'
+    }));
+    
   }
   hasPagePermission(pageId: string): boolean {
     const permissions = JSON.parse(localStorage.getItem('permissions') || '{}');
@@ -53,6 +59,8 @@ export class PermissionService {
 
   /** Fetch the drill‑down menu tree with selectedActions pre‑populated */
   getTree(groupId: number): Observable<MenuItem[]> {
+    // Simulate an API call
+
     return this.http.get<MenuItem[]>(`/api/permissions/tree?groupId=${groupId}`);
   }
 
