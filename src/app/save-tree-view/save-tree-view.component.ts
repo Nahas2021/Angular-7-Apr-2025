@@ -49,18 +49,24 @@ interface FlatNode {
         {
         name: 'Level 3: Option A',
         children: [
-          {
+          { menuID: '1', 
           name: 'Level 4: Confirm A1',
           children: [
-            {id:'1',name: 'Level 5: Execute A1.1' },
-            {id:'2', name: 'Level 5: Execute A1.2', menuID: '3' }
+            {id:'1',name: 'View' ,menuID: '3'},
+            {id:'2', name: 'Save', menuID: '3' },
+            {id:'3', name: 'Edit', menuID: '3' },
+            {id:'4', name: 'Delete', menuID: '3' },
+            {id:'5', name: 'Print', menuID: '3' }
           ]
           },
           {
           name: 'Level 4: Confirm A2',
           children: [
-            { id:'3',name: 'Level 5: Execute A2.1' ,menuID: '4' },
-            { name: 'Level 5: Execute A2.2' }
+            {id:'1',name: 'View' ,menuID: '2'},
+            {id:'2', name: 'Save', menuID: '2' },
+            {id:'3', name: 'Edit', menuID: '2' },
+            {id:'4', name: 'Delete', menuID: '2' },
+            {id:'5', name: 'Print', menuID: '2' }
           ]
           }
         ]
@@ -119,224 +125,9 @@ interface FlatNode {
       }
     ]
     }
-  // {
-    //   name: 'Excel',
-    //   children: [
-    //     { name: 'Excel 2016' },
-    //     { name: 'Excel 2019' },
-    //     { name: 'Excel 2021' },
-    //     { name: 'Excel for Microsoft 365' },
-    //     { name: 'Excel Online' }
-    //   ]
-    // },
-    // {
-    //   name: 'Excel Menus',
-    //   children: [
-    //     {
-    //       name: 'File',
-    //       children: [
-    //         { name: 'New' },
-    //         { name: 'Open' },
-    //         { name: 'Save' },
-    //         { name: 'Save As' },
-    //         { name: 'Print' },
-    //         { name: 'Close' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'Home',
-    //       children: [
-    //         { name: 'Clipboard' },
-    //         { name: 'Font' },
-    //         { name: 'Alignment' },
-    //         { name: 'Number' },
-    //         { name: 'Styles' },
-    //         { name: 'Cells' },
-    //         { name: 'Editing' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'Insert',
-    //       children: [
-    //         { name: 'Tables' },
-    //         { name: 'Illustrations' },
-    //         { name: 'Add-ins' },
-    //         { name: 'Charts' },
-    //         { name: 'Sparklines' },
-    //         { name: 'Text' },
-    //         { name: 'Symbols' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'Page Layout',
-    //       children: [
-    //         { name: 'Themes' },
-    //         { name: 'Page Setup' },
-    //         { name: 'Scale to Fit' },
-    //         { name: 'Sheet Options' },
-    //         { name: 'Arrange' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'Formulas',
-    //       children: [
-    //         { name: 'Function Library' },
-    //         { name: 'Defined Names' },
-    //         { name: 'Formula Auditing' },
-    //         { name: 'Calculation' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'Data',
-    //       children: [
-    //         { name: 'Get & Transform Data' },
-    //         { name: 'Sort & Filter' },
-    //         { name: 'Data Tools' },
-    //         { name: 'Forecast' },
-    //         { name: 'Outline' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'Review',
-    //       children: [
-    //         { name: 'Proofing' },
-    //         { name: 'Accessibility' },
-    //         { name: 'Language' },
-    //         { name: 'Comments' },
-    //         { name: 'Protect' }
-    //       ]
-    //     },
-    //     {
-    //       name: 'View',
-    //       children: [
-    //         { name: 'Workbook Views' },
-    //         { name: 'Show' },
-    //         { name: 'Zoom' },
-    //         { name: 'Window' },
-    //         { name: 'Macros' }
-    //       ]
-    //     }
-    //   ]
-    // }
+ 
   
  ];
-//     name: 'Fruits',
-//     children: [
-//       {
-//         name: 'Apple',
-//         children: [
-//           { name: 'Fuji' },
-//           { name: 'Gala' },
-//           { name: 'Granny Smith' },
-//           { name: 'Honeycrisp' },
-//           { name: 'Red Delicious' }
-//         ]
-//       },
-//       {
-//         name: 'Banana',
-//         children: [
-//           { name: 'Cavendish' },
-//           { name: 'Red' },
-//           { name: 'Lady Finger' },
-//           { name: 'Blue Java' },
-//           { name: 'Plantain' }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//     name: 'Vegetables',
-//     children: [
-//       { name: 'Tomato' },
-//       { name: 'Carrot' }
-//     ]
-//   },
-//   {
-//     name: 'Movies',
-//     children: [
-//       {
-//         name: 'Action',
-//         children: [
-//           { name: 'Mad Max: Fury Road' },
-//           { name: 'John Wick' },
-//           { name: 'Gladiator' }
-//         ]
-//       },
-//       {
-//         name: 'Comedy',
-//         children: [
-//           { name: 'The Hangover' },
-//           { name: 'Superbad' },
-//           { name: 'Step Brothers' }
-//         ]
-//       },
-//       {
-//         name: 'Drama',
-//         children: [
-//           { name: 'Forrest Gump' },
-//           { name: 'The Shawshank Redemption' },
-//           { name: 'Fight Club' }
-//         ]
-//       },
-//       {
-//         name: 'Horror',
-//         children: [
-//           { name: 'The Conjuring' },
-//           { name: 'Hereditary' },
-//           { name: 'Get Out' }
-//         ]
-//       },
-//       {
-//         name: 'Romance',
-//         children: [
-//           { name: 'The Notebook' },
-//           { name: 'La La Land' },
-//           { name: 'Pride & Prejudice' }
-//         ]
-//       },
-//       {
-//         name: 'Sci-Fi',
-//         children: [
-//           { name: 'Inception' },
-//           { name: 'Interstellar' },
-//           { name: 'Blade Runner 2049' }
-//         ]
-//       },
-//       {
-//         name: 'Thriller',
-//         children: [
-//           { name: 'Gone Girl' },
-//           { name: 'Se7en' },
-//           { name: 'Shutter Island' }
-//         ]
-//       },
-//       {
-//         name: 'Documentary',
-//         children: [
-//           { name: 'The Social Dilemma' },
-//           { name: '13th' },
-//           { name: 'Free Solo' }
-//         ]
-//       },
-//       {
-//         name: 'Fantasy',
-//         children: [
-//           { name: 'The Lord of the Rings' },
-//           { name: 'Harry Potter and the Sorcerer\'s Stone' },
-//           { name: 'The Chronicles of Narnia' }
-//         ]
-//       },
-//       {
-//         name: 'Animation',
-//         children: [
-//           { name: 'Toy Story' },
-//           { name: 'Spirited Away' },
-//           { name: 'Coco' }
-//         ]
-//       }
-//     ]
-//   }
-// ];
 
 
 @Component({
@@ -358,18 +149,7 @@ export class SaveTreeViewComponent implements OnInit {
   //groups = ['Admins', 'Users', 'Guests'];
   selectedGroup: { groupId: number, groupName: string } | null = null;
   selected_Group: UserGroup = { groupId: 1, groupName: 'Admins' };
-  // private transformer = (node: TreeNode, level: number, parent?: FlatNode): FlatNode => {
-  //   const flatNode: FlatNode = {
-  //     name: node.name,
-  //     level,
-  //     expandable: !!node.children?.length,
-  //     checked: node.checked,
-  //     indeterminate: node.indeterminate,
-  //     parent: parent // Track parent
-  //   };
-  //   this.nodeMap.set(flatNode, node);
-  //   return flatNode;
-  // };
+
   flatNodeMap = new Map<FlatNode, TreeNode>();
 nestedNodeMap = new Map<TreeNode, FlatNode>();
 
@@ -484,16 +264,20 @@ transformer = (node: TreeNode, level: number): FlatNode => {
     if (this.selectedGroup) {
       console.log('Selected Group ID:', this.selectedGroup.groupId);
       console.log('Selected Group Name:', this.selectedGroup.groupName);
-      // Now you can use this.selectedGroup.groupId wherever needed
+
+      // Clear all selections before applying new ones
+      this.deselectAll();
+      this.updateParents(this.treeControl.dataNodes[0]); // Update parent states
+     /// alert('Group selection changed. Fetching permissions...');
       this.api.getGroupPermissions(this.selectedGroup.groupId).subscribe(data => {
-        // this.dataSource.data = data;
-         console.log('Tree Data for Group:', data);
-        
-        // Check nodes based on menuID and actionName
+        console.log('Tree Data for Group:', data);
+
+        // Function to check nodes based on menuID and actionName
         const checkNodes = (nodes: TreeNode[], menuID: string, actionName: string): void => {
           nodes.forEach(node => {
-            if (node.menuID === menuID && node.name === actionName) {
+            if ((node.menuID?.toString() ?? '') === menuID.toString() && node.name === actionName) {
               node.checked = true;
+              console.log('Checked Node:', node);
             }
             if (node.children) {
               checkNodes(node.children, menuID, actionName);
@@ -501,10 +285,12 @@ transformer = (node: TreeNode, level: number): FlatNode => {
           });
         };
 
-        // Example usage: Replace 'menuID' and 'actionName' with actual values
-        const menuIDToCheck = '3'; // Replace with the desired menuID
-        const actionNameToCheck = 'Level 5: Execute A1.2'; // Replace with the desired action name
-        checkNodes(this.dataSource.data, menuIDToCheck, actionNameToCheck);
+        // Iterate through the data and check corresponding nodes
+        data.forEach((item: any) => {
+          const menuIDToCheck = item.menuId;
+          const actionNameToCheck = item.actionName;
+          checkNodes(this.dataSource.data, menuIDToCheck, actionNameToCheck);
+        });
 
         // Update the tree control to reflect changes
         this.treeControl.dataNodes.forEach(node => {
@@ -515,16 +301,18 @@ transformer = (node: TreeNode, level: number): FlatNode => {
           }
         });
 
-       });
+        // Update parent nodes' states
+        this.treeControl.dataNodes.forEach(node => {
+          this.updateParents(node);
+        });
+
+        // Update parent indeterminate states
+        this.treeControl.dataNodes.forEach(node => {
+          this.updateParents(node);
+        });
+        this.treeControl.expandAll(); // Optional
+      });
     }
-  
-  
-    
-    // Update parent indeterminate states
-    this.treeControl.dataNodes.forEach(node => {
-      this.updateParents(node);
-    });
-    this.treeControl.expandAll(); // Optional
   }
  
   constructor(private api: ApiService) {
@@ -638,7 +426,9 @@ transformer = (node: TreeNode, level: number): FlatNode => {
   }
 
   deselectAll() {
+    console.log('Deselecting all nodes');
     this.treeControl.dataNodes.forEach(n => {
+      console.log('Deselecting node:', n.name);
       n.checked = false;
       n.indeterminate = false;
     });
