@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { UserGroup } from '../models/types';
 import { ApiService } from '../shared/api.service';
 
+
 interface TreeNode {
   id?: string;
   menuID?: string;
@@ -267,8 +268,7 @@ transformer = (node: TreeNode, level: number): FlatNode => {
 
       // Clear all selections before applying new ones
       this.deselectAll();
-      this.updateParents(this.treeControl.dataNodes[0]); // Update parent states
-     /// alert('Group selection changed. Fetching permissions...');
+
       this.api.getGroupPermissions(this.selectedGroup.groupId).subscribe(data => {
         console.log('Tree Data for Group:', data);
 
@@ -295,6 +295,7 @@ transformer = (node: TreeNode, level: number): FlatNode => {
         // Update the tree control to reflect changes
         this.treeControl.dataNodes.forEach(node => {
           const treeNode = this.flatNodeMap.get(node);
+          //if ((node.menuID?.toString() ?? '') === menuID.toString() && node.name === actionName) {
           if (treeNode) {
             node.checked = treeNode.checked || false;
             node.indeterminate = treeNode.indeterminate || false;
@@ -306,11 +307,11 @@ transformer = (node: TreeNode, level: number): FlatNode => {
           this.updateParents(node);
         });
 
-        // Update parent indeterminate states
-        this.treeControl.dataNodes.forEach(node => {
-          this.updateParents(node);
-        });
-        this.treeControl.expandAll(); // Optional
+        // Expand all nodes to maintain the sequence
+        this.treeControl.expandAll();
+
+         // ✅ Detect changes after all updates
+          //this.cdr.detectChanges();
       });
     }
   }
@@ -424,8 +425,28 @@ transformer = (node: TreeNode, level: number): FlatNode => {
       n.indeterminate = false;
     });
   }
-
+  // clearTreeNodes(nodes: TreeNode[]) {
+  //   for (const node of nodes) {
+  //     node.checked = false;
+  //     node.indeterminate = false;
+  //     if (node.children) {
+  //       this.clearTreeNodes(node.children);
+  //     }
+  //   }
+  // }
   deselectAll() {
+    this.treeControl.dataNodes.forEach(node => {
+      node.checked = false;
+      node.indeterminate = false;
+  
+      const flatNode = this.flatNodeMap.get(node);
+      if (flatNode) {
+        flatNode.checked = false;
+        flatNode.indeterminate = false;
+      }
+    });
+  }
+  deselectAll11() {
     console.log('Deselecting all nodes');
     this.treeControl.dataNodes.forEach(n => {
       console.log('Deselecting node:', n.name);
