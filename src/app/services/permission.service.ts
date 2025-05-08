@@ -21,6 +21,7 @@ export interface MenuItem {
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
   private permissions = new Set<string>();
+  private baseUrl = 'https://localhost:44358/api';
 
   constructor(private http: HttpClient,  private router: Router) {
     // Example permissions assigned to the current user
@@ -66,6 +67,6 @@ export class PermissionService {
 
   /** Save the updated permissions */
   savePermissions(groupId: number, perms: PermissionDto[]): Observable<any> {
-    return this.http.post(`/api/permissions/save?groupId=${groupId}`, perms);
+    return this.http.post(this.baseUrl +`/permissions/save?groupId=${groupId}`, perms);
   }
 }

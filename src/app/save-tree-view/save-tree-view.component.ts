@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { UserGroup } from '../models/types';
 import { ApiService } from '../shared/api.service';
-
+import { PermissionService, MenuItem, PermissionDto } from '../services/permission.service';
 
 interface TreeNode {
   id?: string;
@@ -229,6 +229,26 @@ transformer = (node: TreeNode, level: number): FlatNode => {
   
     // Optionally save
     localStorage.setItem('checkedTreeNodes', JSON.stringify(checkedNodes));
+    console.log('Checked Nodes saved to localStorage:', this.selectedGroup);
+    if (this.selectedGroup) {
+      const permissions = checkedNodes
+        .filter(node => !isNaN(Number(node.menuID))) // Ensure menuID contains a number
+        .map(node => ({
+          menuId: parseInt(node.menuID || '0', 10), // Parse menuID as a number
+          action: node.name // Map actionName to action
+        }));
+console.log('Permissions:', permissions);
+      // Call your permission service to save the permissions
+      // Assuming you have a method in your PermissionService to save permissions
+      this.permSvc.savePermissions(this.selectedGroup.groupId, permissions).subscribe(
+        response => {
+          console.log('Permissions saved successfully:', response);
+        },
+        error => {
+          console.error('Error saving permissions:', error);
+        }
+      );
+    }
   }
   
   saveTreeState33(): void {
@@ -316,7 +336,7 @@ transformer = (node: TreeNode, level: number): FlatNode => {
     }
   }
  
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService,private permSvc: PermissionService) {
     this.dataSource.data = TREE_DATA;
   }
   findParent(nodes: TreeNode[], child: TreeNode): TreeNode | null {
