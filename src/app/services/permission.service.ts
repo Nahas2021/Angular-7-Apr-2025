@@ -43,18 +43,31 @@ export class PermissionService {
     return pageId in permissions;
   }
   loadPermissionsForPage(pageId: string): void {
-    const stored = localStorage.getItem('permissions');
-    const allPermissions = stored ? JSON.parse(stored) : {};
-    this.permissions = new Set(allPermissions[pageId] || []);
-    if (this.permissions.size === 0) {
-      // Redirect to unauthorized page
-      //window.location.href = '/unauthorized';
-     // this.viewContainer.clear();
-      this.router.navigate(['/unauthorized']);  // redirect here
+    const stored = localStorage.getItem('permissionsItems');
+    const allPermissions = stored ? JSON.parse(stored) : [];
+
+    if (!Array.isArray(allPermissions)) {
+      console.error('allPermissions is not an array');
+      return;
+    }
+
+    const menuIdToCheck = parseInt(pageId, 10); // Ensure pageId is converted to a number
+    if (isNaN(menuIdToCheck)) {
+      console.error(`Invalid menuId: ${pageId}`);
+      return;
+    }
+    const matchingPermissions = allPermissions.filter((permission: any) => permission.menuId === menuIdToCheck);
+
+    if (matchingPermissions.length > 0) {
+      this.permissions = new Set(matchingPermissions.map((permission: any) => permission.action));
+      console.log(`Menu ID ${menuIdToCheck} is present in allPermissions`);
+    } else {
+      console.log(`Menu ID ${menuIdToCheck} is not present in allPermissions`);
+      this.router.navigate(['/unauthorized']); // Redirect here
     }
   }
  
-  hasPermission(permission: string): boolean {
+  hasPermission(permission: string): boolean {   
     return this.permissions.has(permission);
   }
 

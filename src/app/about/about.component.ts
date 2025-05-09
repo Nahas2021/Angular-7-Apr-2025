@@ -15,7 +15,10 @@ export class AboutComponent implements OnInit {
   constructor(private permissionService: PermissionService) {}
 
   ngOnInit() {
-    const pageId = 'page-3'; // Or get from route, etc.
+    const pageId = '3'; // Or get from route, etc.
+    // Simulate loading permissions from localStorage
+    const permissions = JSON.parse(localStorage.getItem('permissionsItems') || '[]');
+    console.log('Loaded permissions from localStorage:', permissions);
 
     this.permissionService.loadPermissionsForPage(pageId);
   }

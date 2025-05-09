@@ -51,7 +51,7 @@ interface FlatNode {
         name: 'Level 3: Option A',
         children: [
           { menuID: '1', 
-          name: 'Level 4: Confirm A1',
+          name: 'Home',
           children: [
             {id:'1',name: 'View' ,menuID: '3'},
             {id:'2', name: 'Save', menuID: '3' },
@@ -61,7 +61,7 @@ interface FlatNode {
           ]
           },
           {
-          name: 'Level 4: Confirm A2',
+          name: 'About',
           children: [
             {id:'1',name: 'View' ,menuID: '2'},
             {id:'2', name: 'Save', menuID: '2' },
@@ -232,12 +232,14 @@ transformer = (node: TreeNode, level: number): FlatNode => {
     console.log('Checked Nodes saved to localStorage:', this.selectedGroup);
     if (this.selectedGroup) {
       const permissions = checkedNodes
-        .filter(node => !isNaN(Number(node.menuID))) // Ensure menuID contains a number
+        .filter(node => !isNaN(Number(node.menuID)) && Number(node.menuID) > 0) // Ensure menuID contains a number and is greater than 0
         .map(node => ({
           menuId: parseInt(node.menuID || '0', 10), // Parse menuID as a number
           action: node.name // Map actionName to action
         }));
 console.log('Permissions:', permissions);
+localStorage.setItem('permissionsItems', JSON.stringify(permissions));
+
       // Call your permission service to save the permissions
       // Assuming you have a method in your PermissionService to save permissions
       this.permSvc.savePermissions(this.selectedGroup.groupId, permissions).subscribe(
