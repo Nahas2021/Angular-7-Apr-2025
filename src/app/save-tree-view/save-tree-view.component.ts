@@ -22,113 +22,114 @@ interface TreeNode {
 }
 
 interface FlatNode {
-   id: string;
+  id: string;
   menuID?: string; // Added menuID property
-   name: string;
+  name: string;
   level: number;
   expandable: boolean;
   checked?: boolean;
   indeterminate?: boolean;
   parent?: FlatNode;
-  
+
 }
 
 
- const TREE_DATA: TreeNode[] = [
-  
-    // { id: 'node1', name: 'Level 1: Root A',  },
-    // { id: 'node2', name: 'Level 2: Child A1' },
-    // { id: 'node3', name: 'Level 3: Child A1.1'},
-    
-    
-    {
+const TREE_DATA: TreeNode[] = [
+
+  // { id: 'node1', name: 'Level 1: Root A',  },
+  // { id: 'node2', name: 'Level 2: Child A1' },
+  // { id: 'node3', name: 'Level 3: Child A1.1'},
+
+
+  {
     name: 'Step 1: Getting Started',
     children: [
       {
-      name: 'Level 2: Choose Option',
-      children: [
-        {
-        name: 'Level 3: Option A',
-        children: [
-          { menuID: '1', 
-          name: 'Home',
-          children: [
-            {id:'1',name: 'View' ,menuID: '3'},
-            {id:'2', name: 'Save', menuID: '3' },
-            {id:'3', name: 'Edit', menuID: '3' },
-            {id:'4', name: 'Delete', menuID: '3' },
-            {id:'5', name: 'Print', menuID: '3' }
-          ]
-          },
-          {
-          name: 'About',
-          children: [
-            {id:'1',name: 'View' ,menuID: '2'},
-            {id:'2', name: 'Save', menuID: '2' },
-            {id:'3', name: 'Edit', menuID: '2' },
-            {id:'4', name: 'Delete', menuID: '2' },
-            {id:'5', name: 'Print', menuID: '2' }
-          ]
-          }
-        ]
-        },
-        {
-        name: 'Level 3: Option B',
+        name: 'Level 2: Choose Option',
         children: [
           {
-          name: 'Level 4: Confirm B1',
-          children: [
-            { name: 'Level 5: Execute B1.1' },
-            { name: 'Level 5: Execute B1.2' }
-          ]
+            name: 'Level 3: Option A',
+            children: [
+              {
+                menuID: '1',
+                name: 'About',
+                children: [
+                  { id: '1', name: 'View', menuID: '3' },
+                  { id: '2', name: 'Save', menuID: '3' },
+                  { id: '3', name: 'Edit', menuID: '3' },
+                  { id: '4', name: 'Delete', menuID: '3' },
+                  { id: '5', name: 'Print', menuID: '3' }
+                ]
+              },
+              {
+                name: 'Contact',
+                children: [
+                  { id: '1', name: 'View', menuID: '2' },
+                  { id: '2', name: 'Save', menuID: '2' },
+                  { id: '3', name: 'Edit', menuID: '2' },
+                  { id: '4', name: 'Delete', menuID: '2' },
+                  { id: '5', name: 'Print', menuID: '2' }
+                ]
+              }
+            ]
           },
           {
-          name: 'Level 4: Confirm B2',
-          children: [
-            { name: 'Level 5: Execute B2.1' },
-            { name: 'Level 5: Execute B2.2' }
-          ]
+            name: 'Level 3: Option B',
+            children: [
+              {
+                name: 'Level 4: Confirm B1',
+                children: [
+                  { name: 'Level 5: Execute B1.1' },
+                  { name: 'Level 5: Execute B1.2' }
+                ]
+              },
+              {
+                name: 'Level 4: Confirm B2',
+                children: [
+                  { name: 'Level 5: Execute B2.1' },
+                  { name: 'Level 5: Execute B2.2' }
+                ]
+              }
+            ]
           }
         ]
-        }
-      ]
       },
       {
-      name: 'Level 2: Explore Settings',
-      children: [
-        {
-        name: 'Level 3: Advanced Config',
+        name: 'Level 2: Explore Settings',
         children: [
           {
-          name: 'Level 4: Save Changes',
-          children: [
-            { name: 'Level 5: Confirm Save & Exit' },
-            { name: 'Level 5: Schedule Backup' }
-          ]
-          },
-          {
-          name: 'Level 4: Reset to Default',
-          children: [
-            {id:'4', name: 'Level 5: Confirm Reset' ,menuID: '5' },
-            { name: 'Level 5: Create Restore Point' }
-          ]
+            name: 'Level 3: Advanced Config',
+            children: [
+              {
+                name: 'Level 4: Save Changes',
+                children: [
+                  { name: 'Level 5: Confirm Save & Exit' },
+                  { name: 'Level 5: Schedule Backup' }
+                ]
+              },
+              {
+                name: 'Level 4: Reset to Default',
+                children: [
+                  { id: '4', name: 'Level 5: Confirm Reset', menuID: '5' },
+                  { name: 'Level 5: Create Restore Point' }
+                ]
+              }
+            ]
           }
         ]
-        }
-      ]
       },
       {
-      name: 'Level 2: Additional Step',
-      children: [
-        { name: 'Level 3: Sub-step 1' },
-        { name: 'Level 3: Sub-step 2' }
-      ]
+        name: 'Level 2: Additional Step',
+        children: [
+          { name: 'Level 3: Sub-step 1' },
+          { name: 'Level 3: Sub-step 2' }
+        ]
       }
     ]
-    }
- 
-  
- ];
+  }
+
+
+];
 
 
 @Component({
@@ -138,7 +139,7 @@ interface FlatNode {
     MatTreeModule,
     MatCheckboxModule,
     MatIconModule,
-    MatButtonModule,MatFormFieldModule,MatSelectModule,FormsModule
+    MatButtonModule, MatFormFieldModule, MatSelectModule, FormsModule
   ],
   templateUrl: './save-tree-view.component.html',
   styleUrl: './save-tree-view.component.css'
@@ -152,19 +153,19 @@ export class SaveTreeViewComponent implements OnInit {
   selected_Group: UserGroup = { groupId: 1, groupName: 'Admins' };
 
   flatNodeMap = new Map<FlatNode, TreeNode>();
-nestedNodeMap = new Map<TreeNode, FlatNode>();
+  nestedNodeMap = new Map<TreeNode, FlatNode>();
 
-ngOnInit(): void {
-  this.api.getUserGroups().subscribe(data => {
-    this.groups = data;
-    console.log('User Groups:', this.groups);
-  });
-}
-transformer = (node: TreeNode, level: number): FlatNode => {
-  const existingNode = this.nestedNodeMap.get(node);
-  const flatNode: FlatNode = existingNode && existingNode.name === node.name
-    ? existingNode
-    : {
+  ngOnInit(): void {
+    this.api.getUserGroups().subscribe(data => {
+      this.groups = data;
+      console.log('User Groups:', this.groups);
+    });
+  }
+  transformer = (node: TreeNode, level: number): FlatNode => {
+    const existingNode = this.nestedNodeMap.get(node);
+    const flatNode: FlatNode = existingNode && existingNode.name === node.name
+      ? existingNode
+      : {
         id: node.id || '', // Ensure id is assigned
         menuID: node.menuID || '', // Include menuID
         name: node.name,
@@ -174,11 +175,11 @@ transformer = (node: TreeNode, level: number): FlatNode => {
         indeterminate: false
       };
 
-  this.flatNodeMap.set(flatNode, node);
-  this.nestedNodeMap.set(node, flatNode);
+    this.flatNodeMap.set(flatNode, node);
+    this.nestedNodeMap.set(node, flatNode);
 
-  return flatNode;
-};
+    return flatNode;
+  };
 
   // Selection map: group name -> selected node names
   groupSelections: { [key: string]: Set<string> } = {};
@@ -209,24 +210,24 @@ transformer = (node: TreeNode, level: number): FlatNode => {
           name: node.name
         }));
     }
-  
+
     const checkedNodes = extractCheckedNodes(this.dataSource.data); // replace with your actual tree data source
     console.log('Checked Nodes Saved:', checkedNodes);
-  
+
     localStorage.setItem('checkedTreeNodes', JSON.stringify(checkedNodes));
   }
-  
+
   saveTreeState(): void {
     const checkedNodes = this.treeControl.dataNodes
       .filter(node => node.checked)
       .map(node => ({
-      id: node.id || '',
-      name: node.name,
-      menuID: node.menuID || '' // Ensure menuID is included even if it's null
+        id: node.id || '',
+        name: node.name,
+        menuID: node.menuID || '' // Ensure menuID is included even if it's null
       }));
 
     console.log('Checked Nodes:', checkedNodes);
-  
+
     // Optionally save
     localStorage.setItem('checkedTreeNodes', JSON.stringify(checkedNodes));
     console.log('Checked Nodes saved to localStorage:', this.selectedGroup);
@@ -237,8 +238,8 @@ transformer = (node: TreeNode, level: number): FlatNode => {
           menuId: parseInt(node.menuID || '0', 10), // Parse menuID as a number
           action: node.name // Map actionName to action
         }));
-console.log('Permissions:', permissions);
-localStorage.setItem('permissionsItems', JSON.stringify(permissions));
+      console.log('Permissions:', permissions);
+      localStorage.setItem('permissionsItems', JSON.stringify(permissions));
 
       // Call your permission service to save the permissions
       // Assuming you have a method in your PermissionService to save permissions
@@ -252,21 +253,21 @@ localStorage.setItem('permissionsItems', JSON.stringify(permissions));
       );
     }
   }
-  
+
   saveTreeState33(): void {
     const treeStateToSave = this.treeControl.dataNodes.map(node => ({
       id: node.id,
       name: node.name,
       checked: !!node.checked
     }));
-  
+
     console.log('Saved Tree State:', treeStateToSave);
-  
+
     // Example: Save to local storage (you can replace this with API call)
     localStorage.setItem('treeState', JSON.stringify(treeStateToSave));
   }
-  
-  
+
+
   saveTreeState22211(): void {
     const serializeTree = (nodes: TreeNode[]): any[] => {
       return nodes.map(node => ({
@@ -332,13 +333,13 @@ localStorage.setItem('permissionsItems', JSON.stringify(permissions));
         // Expand all nodes to maintain the sequence
         this.treeControl.expandAll();
 
-         // ✅ Detect changes after all updates
-          //this.cdr.detectChanges();
+        // ✅ Detect changes after all updates
+        //this.cdr.detectChanges();
       });
     }
   }
- 
-  constructor(private api: ApiService,private permSvc: PermissionService) {
+
+  constructor(private api: ApiService, private permSvc: PermissionService) {
     this.dataSource.data = TREE_DATA;
   }
   findParent(nodes: TreeNode[], child: TreeNode): TreeNode | null {
@@ -356,21 +357,21 @@ localStorage.setItem('permissionsItems', JSON.stringify(permissions));
   toggleCheckbox1(node: FlatNode): void {
     node.checked = !node.checked;
     node.indeterminate = false;
-  
+
     this.checkDescendants(node, node.checked);
     this.updateParents(node);
   }
   toggleCheckbox(node: FlatNode): void {
     node.checked = !node.checked;
     node.indeterminate = false;
-  
+
     // Update descendants
     const descendants = this.getDescendants(node);
     descendants.forEach(child => {
       child.checked = node.checked;
       child.indeterminate = false;
     });
-  
+
     // Update all parent nodes
     this.updateAllParents(node);
   }
@@ -380,10 +381,10 @@ localStorage.setItem('permissionsItems', JSON.stringify(permissions));
       const descendants = this.getDescendants(parent);
       const allChecked = descendants.every(child => child.checked);
       const someChecked = descendants.some(child => child.checked || child.indeterminate);
-  
+
       parent.checked = allChecked;
       parent.indeterminate = !allChecked && someChecked;
-  
+
       parent = this.getParentNode(parent);
     }
   }
@@ -412,34 +413,34 @@ localStorage.setItem('permissionsItems', JSON.stringify(permissions));
       const descendants = this.treeControl.getDescendants(parent);
       const allChecked = descendants.every(d => d.checked);
       const noneChecked = descendants.every(d => !d.checked && !d.indeterminate);
-  
+
       parent.checked = allChecked;
       parent.indeterminate = !allChecked && !noneChecked;
-  
+
       parent = this.getParentNode(parent);
     }
   }
   getParentNode(node: FlatNode): FlatNode | null {
-  const nodeIndex = this.treeControl.dataNodes.indexOf(node);
-  for (let i = nodeIndex - 1; i >= 0; i--) {
-    const current = this.treeControl.dataNodes[i];
-    if (current.level < node.level) {
-      return current;
+    const nodeIndex = this.treeControl.dataNodes.indexOf(node);
+    for (let i = nodeIndex - 1; i >= 0; i--) {
+      const current = this.treeControl.dataNodes[i];
+      if (current.level < node.level) {
+        return current;
+      }
     }
+    return null;
   }
-  return null;
-}
   getParentNode1(node: FlatNode): FlatNode | null {
     const nodeIndex = this.treeControl.dataNodes.indexOf(node);
     if (nodeIndex < 0) return null;
-  
+
     for (let i = nodeIndex - 1; i >= 0; i--) {
       const current = this.treeControl.dataNodes[i];
       if (current.level < node.level) return current;
     }
     return null;
   }
-  
+
 
   selectAll() {
     this.treeControl.dataNodes.forEach(n => {
@@ -460,7 +461,7 @@ localStorage.setItem('permissionsItems', JSON.stringify(permissions));
     this.treeControl.dataNodes.forEach(node => {
       node.checked = false;
       node.indeterminate = false;
-  
+
       const flatNode = this.flatNodeMap.get(node);
       if (flatNode) {
         flatNode.checked = false;

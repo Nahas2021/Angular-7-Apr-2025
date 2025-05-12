@@ -38,36 +38,53 @@ export class PermissionService {
     }));
     
   }
-  hasPagePermission(pageId: string): boolean {
+  hasPagePermission111(pageId: string): boolean {
     const permissions = JSON.parse(localStorage.getItem('permissions') || '{}');
     return pageId in permissions;
   }
+  hasPagePermission(menuid: string): boolean {
+    const permissions = JSON.parse(localStorage.getItem('permissionsItems') || '[]');
+    return permissions.some((p: any) => p.menuId === +menuid);
+  }
   loadPermissionsForPage(pageId: string): void {
+
+    // this.get_GroupPermissions(3).subscribe(data => {
+    //   console.log('Group permissions:', data);
+    //   localStorage.setItem('permissionsItems', JSON.stringify(data));
+    // });
+
     const stored = localStorage.getItem('permissionsItems');
     const allPermissions = stored ? JSON.parse(stored) : [];
 
+    
+   
     if (!Array.isArray(allPermissions)) {
       console.error('allPermissions is not an array');
       return;
     }
 
     const menuIdToCheck = parseInt(pageId, 10); // Ensure pageId is converted to a number
+    console.log(`Checking permissions for menuId: ${menuIdToCheck}`);
     if (isNaN(menuIdToCheck)) {
       console.error(`Invalid menuId: ${pageId}`);
       return;
     }
     const matchingPermissions = allPermissions.filter((permission: any) => permission.menuId === menuIdToCheck);
-
+console.log('Matching permissions:', matchingPermissions);
     if (matchingPermissions.length > 0) {
       this.permissions = new Set(matchingPermissions.map((permission: any) => permission.action));
+      console.log('Permissions loaded:', this.permissions);
       console.log(`Menu ID ${menuIdToCheck} is present in allPermissions`);
     } else {
       console.log(`Menu ID ${menuIdToCheck} is not present in allPermissions`);
       this.router.navigate(['/unauthorized']); // Redirect here
     }
   }
- 
+ get_GroupPermissions(groupId: number): Observable<MenuItem[]> {
+       return this.http.get<MenuItem[]>(this.baseUrl +`/permissions/tree?groupId=${groupId}`);
+     }
   hasPermission(permission: string): boolean {   
+
     return this.permissions.has(permission);
   }
 
